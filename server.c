@@ -6,7 +6,7 @@
 /*   By: inikulin <inikulin@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:46:40 by inikulin          #+#    #+#             */
-/*   Updated: 2024/05/01 21:57:52 by inikulin         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:47:30 by inikulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,23 @@ typedef struct s_global
 
 t_global g_g;
 
-static void	stat()
+static void	get_len(int signal)
 {
-	ft_printf("len_promised: %i\nlen_bits: %i\nsym_printed: %i\nsym_cur: %i\nsym_bits: %i\n",
-		   g_g.len_promised, g_g.len_bits, g_g.sym_printed, g_g.sym_cur, g_g.sym_bits);
-}
-
-static void	getlen(int signal)
-{
+	g_g.len_promised <<= 1;
 	g_g.len_bits ++;
 	if (signal == SIGUSR2)
 		g_g.len_promised ++;
-	g_g.len_promised <<= 1;
 }
 
-static void	gettext(int signal)
+static void	get_text(int signal)
 {
+	g_g.sym_cur <<= 1;
 	g_g.sym_bits ++;
 	if (signal == SIGUSR2)
 		g_g.sym_cur ++;
-	g_g.sym_cur <<= 1;
-	if (g_g.sym_bits > 8 || (g_g.sym_bits == 8 && g_g.sym_printed == g_g.len_promised - 1))
+	if (g_g.sym_bits == 8)
 	{
 		g_g.sym_bits = 0;
-		g_g.sym_cur >>= 1;
 		ft_printf("%c", g_g.sym_cur, g_g.sym_cur);
 		g_g.sym_cur = 0;
 		if (++ g_g.sym_printed >= g_g.len_promised)
@@ -59,7 +52,6 @@ static void	gettext(int signal)
 			g_g.len_promised = 0;
 			g_g.len_bits = 0;
 			g_g.sym_printed = 0;
-			stat();
 		}
 	}
 }
@@ -68,16 +60,16 @@ static void	getit(int signal, siginfo_t *info, void *context)
 {
 	(void)context;
 	(void)info;
-	if (g_g.len_bits < 31)
-		getlen(signal);
+	if (g_g.len_bits < 32)
+		get_len(signal);
 	else
 	{
-		if (g_g.len_bits == 31 && g_g.sym_printed == 0 && g_g.sym_bits == 0)
+		if (g_g.len_bits == 32 && g_g.sym_printed == 0 && g_g.sym_bits == 0)
 		{
 			ft_printf("Incoming message, length: %i\n", g_g.len_promised);
 			g_g.sym_cur = 0;
 		}
-		gettext(signal);
+		get_text(signal);
 	}
 }
 
