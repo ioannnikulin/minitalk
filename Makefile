@@ -12,10 +12,10 @@ all: $(NAME)
 pre:
 	$(PREFIX)cd libft && make all
 
-SERVER_SRCS = server.c
+SERVER_SRCS = srv/server.c srv/server_text.c
 SERVER_OBJS = $(SERVER_SRCS:.c=.o)
 
-CLIENT_SRCS = client.c
+CLIENT_SRCS = clnt/client.c
 CLIENT_OBJS = $(CLIENT_SRCS:.c=.o)
 
 $(NAME): $(SERVER_OBJS) $(CLIENT_OBJS)
