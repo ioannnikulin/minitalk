@@ -6,7 +6,7 @@
 /*   By: inikulin <inikulin@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:46:40 by inikulin          #+#    #+#             */
-/*   Updated: 2024/05/03 21:50:31 by inikulin         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:54:32 by inikulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	get_text(int signal, siginfo_t *info)
 			g_g.bytes_promised = 0;
 			g_g.len_bits = 0;
 			g_g.bytes_printed = 0;
-			usleep(100);
+			usleep(10);
 			kill(info->si_pid, SIGUSR1);
 		}
 	}

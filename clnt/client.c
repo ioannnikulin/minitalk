@@ -6,7 +6,7 @@
 /*   By: inikulin <inikulin@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 18:42:42 by inikulin          #+#    #+#             */
-/*   Updated: 2024/05/03 21:49:55 by inikulin         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:54:15 by inikulin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	send_number(unsigned int num, int pid)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(100);
+		usleep(10);
 		bit_mask >>= 1;
 	}
 }
@@ -46,7 +46,7 @@ static void	send_text(char *s, int pid)
 				kill(pid, SIGUSR2);
 			else
 				kill(pid, SIGUSR1);
-			usleep(100);
+			usleep(10);
 			bit_mask >>= 1;
 		}
 	}
